@@ -1,5 +1,5 @@
 -- CreateTable
-CREATE TABLE "jcwd3504"."samples" (
+CREATE TABLE "public"."samples" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -9,7 +9,7 @@ CREATE TABLE "jcwd3504"."samples" (
 );
 
 -- CreateTable
-CREATE TABLE "jcwd3504"."users" (
+CREATE TABLE "public"."users" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
@@ -21,4 +21,4 @@ CREATE TABLE "jcwd3504"."users" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "users_email_key" ON "jcwd3504"."users"("email");
+CREATE UNIQUE INDEX "users_email_key" ON "public"."users"("email");

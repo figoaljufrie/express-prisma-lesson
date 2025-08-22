@@ -3,20 +3,33 @@ import { ApiError } from "../../utils/api-error";
 import { CLoudinaryService } from "../cloudinary/cloudinary.service";
 import { MailService } from "../mail/mail.service";
 import { PrismaService } from "../prisma/prisma.service";
+import { RedisService } from "../redis/redis.service";
 
 export class SampleService {
   private prisma: PrismaService;
   private mailService: MailService;
   private cloudinaryService: CLoudinaryService;
+  private redisService: RedisService;
 
   constructor() {
     this.prisma = new PrismaService();
     this.mailService = new MailService();
     this.cloudinaryService = new CLoudinaryService();
+    this.redisService = new RedisService();
   }
 
   getSamples = async () => {
+    const cacheSamples = await this.redisService.getValue("samples");
+
+    if (cacheSamples) {
+      console.log("Data dari redis");
+      return JSON.parse(cacheSamples);
+    }
+
     const samples = await this.prisma.sample.findMany();
+
+    console.log("data dari database")
+    await this.redisService.setValue("samples", JSON.stringify(samples), 20);
     return samples;
   };
 
@@ -51,6 +64,6 @@ export class SampleService {
   uploadImage = async (image: Express.Multer.File) => {
     const { secure_url } = await this.cloudinaryService.upload(image);
 
-    return {message: "Upload Success!", url: secure_url};
+    return { message: "Upload Success!", url: secure_url };
   };
 }

@@ -1,0 +1,23 @@
+Cara pull image:
+- docker pull<nama-image>:<version>, contoh:
+docker pull postgres:latest
+
+Cara create container postgres:
+- docker run --name <container_name> -e POSTGRES_PASSWORD=yourPassword -p <host_port>:<container_port> <image>:<version>
+- docker run --name postgres_container -e POSTGRES_PASSWORD=admin -p 6543:5432 postgres
+
+Cara mount Dockervolume ke container:
+- docker run --name <container_name> -e POSTGRES_PASSWORD=yourPassword -p <host_port>:<container_port> -v postgres_volume:/var/lib/postgresql/data <image>:<version>
+- docker run --name postgres_container -e POSTGRES_PASSWORD=admin -p 6543:5432 -v postgres_volume:/var/lib/postgresql/data postgres
+
+liat container active:
+docker ps
+
+liat containter keseluruhan:
+docker ps -a
+
+delete container lewat terminal:
+docker contrainer rm <nama_container>
+
+cara hide log activity docker di terminal:
+docker compose up -d
